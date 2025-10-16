@@ -161,6 +161,7 @@
     "fsevents": "2.3.3"
   },
   "resolutions": {
-    "json5": "^2.2.3"
+    "json5": "^2.2.3",
+    "form-data": "^4.0.4"
   }
 }
