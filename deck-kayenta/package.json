@@ -159,5 +159,8 @@
   },
   "optionalDependencies": {
     "fsevents": "2.3.3"
+  },
+  "resolutions": {
+    "json5": "^2.2.3"
   }
 }
