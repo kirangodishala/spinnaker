@@ -87,7 +87,7 @@ public class PipelineTemplatesController {
 
     Map<String, Object> operation = new HashMap<>();
     operation.put(
-        "description", "Create pipeline template '" + getNameFromTemplate(template) + "'");
+        "description", "Create pipeline template '" + sanitizeForDescription(getNameFromTemplate(template)) + "'");
     operation.put("application", getApplicationFromTemplate(template));
     operation.put("job", jobs);
 
@@ -135,7 +135,7 @@ public class PipelineTemplatesController {
 
     Map<String, Object> operation = new HashMap<>();
     operation.put(
-        "description", "Update pipeline template '" + getNameFromTemplate(template) + "'");
+        "description", "Update pipeline template '" + sanitizeForDescription(getNameFromTemplate(template)) + "'");
     operation.put("application", getApplicationFromTemplate(template));
     operation.put("job", jobs);
 
@@ -156,7 +156,7 @@ public class PipelineTemplatesController {
     jobs.add(job);
 
     Map<String, Object> operation = new HashMap<>();
-    operation.put("description", "Delete pipeline template '" + id + "'");
+    operation.put("description", "Delete pipeline template '" + sanitizeForDescription(id) + "'");
     operation.put("application", application != null ? application : DEFAULT_APPLICATION);
     operation.put("job", jobs);
 
@@ -178,6 +178,14 @@ public class PipelineTemplatesController {
   static String getApplicationFromTemplate(PipelineTemplate template) {
     List<String> scopes = template.metadata.scopes;
     return (scopes.isEmpty() || scopes.size() > 1) ? DEFAULT_APPLICATION : scopes.get(0);
+  }
+
+  static String sanitizeForDescription(String input) {
+    if (input == null) {
+      return "";
+    }
+    // Replace single quotes and other potentially problematic characters
+    return input.replace("'", "''").replace("\"", "\\\"").replace("\n", " ").replace("\r", " ");
   }
 
   static String encodeAsBase64(Object value, ObjectMapper objectMapper) {
